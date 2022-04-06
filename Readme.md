@@ -1,5 +1,7 @@
 ### Instructions
 This command line program is best used to record cooling fan speed or RTD temperature over time, it will handle any 2 byte data
+
+Create a folder "Results" inside where this program is located.
    1. update python to 3.x.x
        - verify by running $ python --version in the terminal
    2. using applcore start logging from the GEA2/3 tab and save the log file.
