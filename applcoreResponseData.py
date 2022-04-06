@@ -4,15 +4,16 @@
 # arg[1] = file path
 # arg[2] = ERD to filter
 
-
-
 #TODO: Write to a new CSV without the extra data
 
 import csv
 import ast
 import sys
 from datetime import datetime
-#import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
+
+timeStampforGraph = []
+parsedErdForGraph = []
 
 
 # datetime object containing current date and time
@@ -85,7 +86,6 @@ for row in csvreader:
         RX = RX + 1
         #only print timestamp, sent ERD, and response
         #strip 0x from item
-
         if ( (platform == "obc1") or (platform =="obc2") ) :
             if (numberOfBytes == 2):
                 newArr = [row[9].replace("0x", ""), row[10].replace("0x", ""), row[12], row[13].replace("0x", "")]
@@ -104,10 +104,13 @@ for row in csvreader:
         if(len(newArr) >= 4):
             #set headers, rows
             timeStamp = row[0]
+            #only add 1 time stamp per 10 responses
+            timeStampforGraph.append(timeStamp)
             sentErd = newArr[0]+newArr[1]
             rawErdResponse = newArr[2]+newArr[3]
             #convert ERD response from hex to decimal
             parsedErd = str(int(rawErdResponse, 16))
+            parsedErdForGraph.append(parsedErd)
             #print to console
             print(timeStamp + "\t\t" + sentErd + "\t\t" + parsedErd)
             
@@ -148,11 +151,11 @@ print(str(round(percentRxTx)) + "% of data lost")
 print ("")
 
 print("END...")
-
-#Draw the line graph
-#plt.plot(timeStamp,parsedErd)
-#plt.title('title name')
-#plt.xlabel('Time')
-#plt.ylabel('sentErd[0]')
-#plt.show()
 file.close()
+
+
+plt.plot(timeStampforGraph, parsedErdForGraph)
+plt.title('ERD response over time')
+plt.xlabel('Time')
+plt.ylabel('ERD Response')
+plt.show()
