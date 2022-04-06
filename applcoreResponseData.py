@@ -51,7 +51,7 @@ print("What platform are you using? RC17, OBC1, Striker")
 platform = str(input().lower())
 print()
 print("What size data are you reading (in bytes), only accepts 2 bytes right now")
-numberOfBytes = input()
+numberOfBytes = int(input())
 
 
 csvreader = csv.reader(file)
@@ -70,7 +70,8 @@ rows = []
 parsedRows = []
 timeStamp = []
 sentErd = []
-fileName = ""
+#write to file
+fileName = "./Results/parsedResults"+ dt_string +".csv"
 RX = 0
 TX = 0
 
@@ -79,7 +80,7 @@ for row in csvreader:
     #add the row to array
     rows.append(row)
 
-    if ((row[1] == "RX") and (len(row) == 14)):
+    if ((row[1] == "RX") and (len(row) >=13)):
         # count number of RXs (responses)
         RX = RX + 1
         #only print timestamp, sent ERD, and response
@@ -89,33 +90,32 @@ for row in csvreader:
             if (numberOfBytes == 2):
                 newArr = [row[9].replace("0x", ""), row[10].replace("0x", ""), row[12], row[13].replace("0x", "")]
             else:
-                print("Cannot proccess anything other than 2 bytes at this time")
+                print("Cannot proccess anything other than 2 bytes at this time, in obc")
         elif (platform == "rc17") :
             if (numberOfBytes == 2):
                 newArr = [row[8].replace("0x", ""), row[9].replace("0x", ""), row[12], row[13].replace("0x", "")]
             else:
-                print("Cannot proccess anything other than 2 bytes at this time")
+                print("Cannot proccess anything other than 2 bytes at this time, in rc17")
         else :
             newArr = []
             print("Program only supports RC17 and OBC platforms")
         
         #join strings together
-        timeStamp = row[0]
-        sentErd = newArr[0]+newArr[1]
-        rawErdResponse = newArr[2]+newArr[3]
-        
-        #convert ERD response from hex to decimal
-        parsedErd = str(int(rawErdResponse, 16))
-
-        #print to console
-        print(timeStamp + "\t\t" + sentErd + "\t\t" + parsedErd)
-        
-        #write to file
-        fileName = "./Results/parsedResults"+ dt_string +".csv"
-        
-        #add items to array
-        parsedRow = [timeStamp, sentErd, parsedErd]
-        parsedRows.append(parsedRow)
+        if(len(newArr) >= 4):
+            #set headers, rows
+            timeStamp = row[0]
+            sentErd = newArr[0]+newArr[1]
+            rawErdResponse = newArr[2]+newArr[3]
+            #convert ERD response from hex to decimal
+            parsedErd = str(int(rawErdResponse, 16))
+            #print to console
+            print(timeStamp + "\t\t" + sentErd + "\t\t" + parsedErd)
+            
+            #add items to array
+            parsedRow = [timeStamp, sentErd, parsedErd]
+            parsedRows.append(parsedRow)
+        else :
+            print("Error")
         
     else:
         #print("TX")
@@ -124,6 +124,8 @@ for row in csvreader:
 #print(parsedRows)
 print ("")
 print("File to read: " + inputFile)
+
+print("Filename: " + fileName)
 
 with open(fileName, 'w') as csvfile: 
     # creating a csv writer object 
