@@ -7,7 +7,7 @@
 #TODO: Write to a new CSV without the extra data
 
 import csv
-import ast
+#import ast
 import sys
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -53,6 +53,17 @@ platform = str(input().lower())
 print()
 print("What size data are you reading (in bytes), only accepts 2 bytes right now")
 numberOfBytes = int(input())
+print()
+print("Would you like to create a chart for the data? Y/n")
+chartYesOrNo = str(input().lower())
+createChart = False
+if ((chartYesOrNo == "yes") or (chartYesOrNo == "")):
+    createChart = True
+    print("Creating chart")
+    input()
+else:
+    print("Not creating chart")
+    input()
 
 
 csvreader = csv.reader(file)
@@ -153,9 +164,9 @@ print ("")
 print("END...")
 file.close()
 
-
-plt.plot(timeStampforGraph, parsedErdForGraph)
-plt.title('ERD response over time')
-plt.xlabel('Time')
-plt.ylabel('ERD Response')
-plt.show()
+if createChart:
+    plt.plot(timeStampforGraph, parsedErdForGraph)
+    plt.title('ERD response over time')
+    plt.xlabel('Time')
+    plt.ylabel('ERD Response')
+    plt.show()
