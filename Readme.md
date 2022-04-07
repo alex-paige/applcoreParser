@@ -3,7 +3,9 @@ This command line program is best used to record cooling fan speed or RTD temper
 
 #### Requirements
 1. update python to 3.10.x+, update pip to match the python version
-       - verify by running $ python --version in the terminal2.
+       - verify by running $ python --version 
+       - verify by running pip --version
+        - verify "pip 22.0.4 from C:\Users\<user>\AppData\Local\Programs\Python\Python310\lib\site-packages\pip (python 3.10.x)", not from an older version of python
 2. run $ pip install -r requirements.txt
 
 Create a folder "Results" inside where this program is located.
