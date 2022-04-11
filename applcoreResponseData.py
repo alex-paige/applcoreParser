@@ -57,7 +57,7 @@ print()
 print("Would you like to create a chart for the data? Y/n")
 chartYesOrNo = str(input().lower())
 createChart = False
-if ((chartYesOrNo == "yes") or (chartYesOrNo == "")):
+if ((chartYesOrNo == "yes" or chartYesOrNo == "y") or (chartYesOrNo == "")):
     createChart = True
     print("Creating chart")
     input()
