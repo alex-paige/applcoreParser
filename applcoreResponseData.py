@@ -47,12 +47,14 @@ else:
 file = open(inputFile)
 
 # Get inputs
+# bytes are hard coded
 print()
 print("What platform are you using? RC17, OBC1, Striker")
 platform = str(input().lower())
 print()
-print("What size data are you reading (in bytes), only accepts 2 bytes right now")
+print("What size data are you reading (in bytes), ***only accepts 2 bytes right now***")
 numberOfBytes = int(input())
+numberOfBytes = 2
 print()
 print("Would you like to create a chart for the data? Y/n")
 chartYesOrNo = str(input().lower())
@@ -152,6 +154,8 @@ with open(fileName, 'w') as csvfile:
     csvwriter.writerows(parsedRows)
     print("File created: " + fileName)
 
+file.close()
+
 # Calculate percentage of sent messages compared to recieved
 percentRxTx = (1 - (RX / TX)) * 100
 
@@ -162,7 +166,9 @@ print(str(round(percentRxTx)) + "% of data lost")
 print ("")
 
 print("END...")
-file.close()
+print ("")
+print ("")
+
 
 if createChart:
     plt.plot(timeStampforGraph, parsedErdForGraph)
